@@ -1,7 +1,7 @@
 # Using the 'APPLY' function in R
 
 # read in the "StockExample.csv" data, and attach it
-StockData <- read.table(file="~/Desktop/R Apply Functions/StockExample.csv",
+StockData <- read.table(file="data/StockExample.csv",
                         sep=",", header=T, row.names=1)
 # check the data
 StockData

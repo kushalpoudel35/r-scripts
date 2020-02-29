@@ -1,0 +1,6 @@
+help(install.packages)
+install.packages('epiR')
+install.packages()
+library(epiR)
+help(package = epiR)
+remove.packages('epiR')
