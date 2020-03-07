@@ -11,20 +11,20 @@ write.table(DataToExport, file="ExportedFileName.csv", row.names=F, sep=",")
 
 # specify the path for where to save the file instead
 write.table(DataToExport, 
-            file="/Users/OldMarin/TEACHING/FolderToSaveIn/ExportedFileName.csv",
+            file="FolderToSaveIn/ExportedFileName.csv",
             row.names=F, sep=",")
 
 # write.csv does the same, just dont need to specify sep=","
 write.csv(DataToExport, 
-          file="/Users/OldMarin/TEACHING/FolderToSaveIn/ExportedFileName.csv", 
+          file="FolderToSaveIn/ExportedFileName.csv", 
           row.names=F)
 
 # save as tab-delim txt file, setting sep="\t" and file extension to .txt
 write.table(DataToExport, 
-            file="/Users/OldMarin/TEACHING/FolderToSaveIn/ExportedFileName.txt", 
+            file="FolderToSaveIn/ExportedFileName.txt", 
             row.names=F, sep="\t")
 
 # or, save it as space-delimited by setting sep=" "
 write.table(DataToExport, 
-            file="/Users/OldMarin/TEACHING/FolderToSaveIn/ExportedFileNameSpace", 
+            file="FolderToSaveIn/ExportedFileNameSpace", 
             row.names=F, sep=" ")

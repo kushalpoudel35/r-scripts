@@ -1,4 +1,4 @@
-LungCapData = read.csv(file='data/LungCapData.csv', header=TRUE)
+LungCapData = read.table(file='data/LungCapData.txt', header=T, sep='\t')
 View(LungCapData)
 dim(LungCapData)
 head(LungCapData)

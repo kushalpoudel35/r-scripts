@@ -1,12 +1,19 @@
 # Using the 'tAPPLY' function in R
 
 # read in the "LungCapData.csv" data, and attach it
-LungCapData <- read.table(file="~/Desktop/R Videos Project/LungCapData.txt", sep="\t", header=T)
+LungCapData <- read.table(file="data/LungCapData.txt", sep="\t", header=T)
 
 # check the data
+names(LungCapData)
 summary(LungCapData)
-# and attach it
-attach(LungCapData)
+
+# and define the variables
+LungCap = LungCapData$LungCap
+Age = LungCapData$Age
+Height = LungCapData$Height
+Smoke = LungCapData$Smoke
+Gender = LungCapData$Gender
+Caesarean = LungCapData$Caesarean
 
 # get the help menu
 ?tapply
@@ -15,7 +22,7 @@ attach(LungCapData)
 tapply(X=Age, INDEX=Smoke, FUN=mean, na.rm=T)
 
 # you don't need to include "X", "INDEX",... as long as you
-# ehter them in that order...
+# enter them in that order...
 # we also don't need to include "na.rm=T" as no missing values
 tapply(Age, Smoke, mean)
 
@@ -67,3 +74,4 @@ temp2 <- c(temp)
 temp2
 # and check it's class
 class(temp2)
+
