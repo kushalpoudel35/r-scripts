@@ -31,6 +31,6 @@ barplot(percentage, main='TITLE', ylab='Gender', xlab='%', las=1,
 pie(count)
 lbls = paste(names(percentage), '\n', round(percentage,1), '%')
 pie(count, main='Pie title', clockwise=T, col=c('#A6DBAE','#E5C19D'), labels=lbls,
-    border=NA)
+    border='white')
 box()
 
