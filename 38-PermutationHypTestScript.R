@@ -1,7 +1,7 @@
 ### PERMUTATION HYPOTHESIS TEST ###
 
 # load in the chicken diet data (save it in "d")
-d <- read.table(file="/Users/OldMarin/Desktop/VIDEOS/R Videos Project/Bootstrap Hyp Tests/ChickData.csv", header=T, sep=",")
+d <- read.table(file="data/ChickData.csv", header=T, sep=",")
 # this data is a subset of the "chickwts" data in the
 # "R datasets package"
 

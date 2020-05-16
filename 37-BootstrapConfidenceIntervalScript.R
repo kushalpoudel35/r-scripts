@@ -2,7 +2,7 @@
 ###  (comparing 2 numeric variables)  ###
 
 # load in the chicken diet data (save it in "d")
-d <- read.table(file="~/Desktop/VIDEOS/R Videos Project/Bootstrap Hyp Tests/ChickData.csv", header=T, sep=",")
+d <- read.table(file="data/ChickData.csv", header=T, sep=",")
 # this data is a subset of the "chickwts" data in the
 # "R datasets package"
 
@@ -11,35 +11,40 @@ View(d)
 
 # check the names, etc
 names(d)
-levels(d$feed)
+
+# assign variables for ease of use
+weight = d$weight
+feed = d$feed
+
+levels(feed)
 # how many observations in each diet?
-table(d$feed)
+table(feed)
 
 # let's look at a boxplot of weight gain by those 2 diets
-boxplot(d$weight~d$feed, las=1, ylab="weight (g)", 
+boxplot(weight~feed, las=1, ylab="weight (g)", 
         xlab="feed",main="Weight by Feed")
 
 # calculate the difference in sample means
-mean(d$weight[d$feed=="casein"])  # mean for casein
-mean(d$weight[d$feed=="meatmeal"])  # mean for meatmeal
+mean(weight[feed=="casein"])  # mean for casein
+mean(weight[feed=="meatmeal"])  # mean for meatmeal
 # and, a fancier way to do that...
-with(d, tapply(weight, feed, mean))
+tapply(weight, feed, mean)
 # lets calculate the diff in means:   (casein - meatmeal)
-Obs.Diff.In.Means <- (mean(d$weight[d$feed=="casein"]) - mean(d$weight[d$feed=="meatmeal"]))  #diff in means
+Obs.Diff.In.Means <- (mean(weight[feed=="casein"]) - mean(weight[feed=="meatmeal"]))  #diff in means
 Obs.Diff.In.Means
 # and, a fanceir way to do that...  (- to have it be casein-meatmeal)
--diff( with(d, tapply(weight, feed, mean)) ) 
+-diff( tapply(weight, feed, mean))
 
 # and, the same for the medians
-median(d$weight[d$feed=="casein"])  # median for casein
-median(d$weight[d$feed=="meatmeal"])  # median for meatmeal
+median(weight[feed=="casein"])  # median for casein
+median(weight[feed=="meatmeal"])  # median for meatmeal
 # and, a fancier way to do that...
-with(d, tapply(weight, feed, median))
+tapply(weight, feed, median)
 # lets calculate the diff in medians:  (casein - meatmeal)
-Obs.Diff.In.Medians <- (median(d$weight[d$feed=="casein"]) - median(d$weight[d$feed=="meatmeal"]))  #diff in medians
+Obs.Diff.In.Medians <- (median(weight[feed=="casein"]) - median(weight[feed=="meatmeal"]))  #diff in medians
 Obs.Diff.In.Medians
 # and, a fanceir way to do that...  (- to have it be casein-meatmeal)
--diff( with(d, tapply(weight, feed, median)) ) 
+-diff( tapply(weight, feed, median))
 
 ###################################
 ### BOOTSTRAP CONFIDENCE INTERVAL
@@ -55,9 +60,9 @@ B <- 100000  # the number of bootstrap samples...go big or go home right?
 
 # now, get those bootstrap samples (without loops!)
 # stick each Boot-sample in a column...
-Boot.casein <- matrix( sample(d$weight[d$feed=="casein"], size= B*n.c, 
+Boot.casein <- matrix( sample(weight[feed=="casein"], size= B*n.c, 
                               replace=TRUE), ncol=B, nrow=n.c)
-Boot.meatmeal <- matrix( sample(d$weight[d$feed=="meatmeal"], size= B*n.m, 
+Boot.meatmeal <- matrix( sample(weight[feed=="meatmeal"], size= B*n.m, 
                                 replace=TRUE), nrow=n.m, ncol=B)
 # check those
 dim(Boot.casein); dim(Boot.meatmeal)
@@ -113,7 +118,7 @@ quantile(Boot.Diff.In.Medians, prob=0.975)
 ########
 
 # calculate the observed difference in 80th percentiles
-Obs.Diff.In.80per <- (quantile(d$weight[d$feed=="casein"], prob=0.80) - quantile(d$weight[d$feed=="meatmeal"], prob=0.80))
+Obs.Diff.In.80per <- (quantile(weight[feed=="casein"], prob=0.80) - quantile(weight[feed=="meatmeal"], prob=0.80))
 Obs.Diff.In.80per
 
 # calculate the difference in 80th percentile for each of the bootsamples

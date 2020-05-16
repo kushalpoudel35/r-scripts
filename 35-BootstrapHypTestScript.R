@@ -1,7 +1,7 @@
 ### BOOTSTRAP HYPOTHESIS TEST ###
 
 # load in the chicken diet data (save it in "d")
-d <- read.table(file="/Users/OldMarin/Desktop/VIDEOS/R Videos Project/Bootstrap Hyp Tests/ChickData.csv", header=T, sep=",")
+d <- read.table(file="data/ChickData.csv", header=T, sep=",")
 # this data is a subset of the "chickwts" data in the
 # "R datasets package"
 
@@ -10,45 +10,50 @@ View(d)
 
 # check the names, etc
 names(d)
-levels(d$feed)
+
+# assign variables for ease of use
+weight = d$weight
+feed = d$feed
+
+levels(feed)
 # how many observations in each diet?
-table(d$feed)
+table(feed)
 
 # let's look at a boxplot of weight gain by those 2 diets
-boxplot(d$weight~d$feed, las=1, ylab="weight (g)", 
-        xlab="feed",main="Weight by Feed")
+boxplot(weight~feed, las=1, ylab="weight (g)", 
+        xlab="feed", main="Weight by Feed")
 
 # calculate the difference in sample means
-mean(d$weight[d$feed=="casein"])  # mean for casein
-mean(d$weight[d$feed=="meatmeal"])  # mean for meatmeal
+mean(weight[feed=="casein"])  # mean for casein
+mean(weight[feed=="meatmeal"])  # mean for meatmeal
 # and, a fancier way to do that...
-with(d, tapply(weight, feed, mean))
+tapply(weight, feed, mean)
 # lets calculate the absolute diff in means
-test.stat1 <- abs(mean(d$weight[d$feed=="casein"]) - mean(d$weight[d$feed=="meatmeal"]))  #diff in means
+test.stat1 <- abs(mean(weight[feed=="casein"]) - mean(weight[feed=="meatmeal"]))  #diff in means
 test.stat1
 # and, a fanceir way to do that...
-abs( diff( with(d, tapply(weight, feed, mean)) ) )
+abs( diff( tapply(weight, feed, mean)) )
 
 # and, the same for the medians
-median(d$weight[d$feed=="casein"])  # median for casein
-median(d$weight[d$feed=="meatmeal"])  # median for meatmeal
+median(weight[feed=="casein"])  # median for casein
+median(weight[feed=="meatmeal"])  # median for meatmeal
 # and, a fancier way to do that...
-with(d, tapply(weight, feed, median))
+tapply(weight, feed, median)
 # lets calculate the absolute diff in medians
-test.stat2 <- abs(median(d$weight[d$feed=="casein"]) - median(d$weight[d$feed=="meatmeal"]))  #diff in medians
+test.stat2 <- abs(median(weight[feed=="casein"]) - median(weight[feed=="meatmeal"]))  #diff in medians
 test.stat2
 # and, a fanceir way to do that...
-abs( diff( with(d, tapply(weight, feed, median)) ) )
+abs( diff( tapply(weight, feed, median)) )
 
 ## let's take a look at the 3 "Classic" hyp tests we could 
 # consider (each of which comes with their own limitations...)
 
 # let's look at the Independent 2-sample t-test
-t.test(d$weight~d$feed, paired=F, var.eq=F)  # tests Ho: means are equal
+t.test(weight~feed, paired=F, var.eq=F)  # tests Ho: means are equal
 # let's look at the Wilcoxon aka Mann-Whitney U 
-wilcox.test(d$weight~d$feed, paired=F)  # tests Ho: medians are equal
+wilcox.test(weight~feed, paired=F)  # tests Ho: medians are equal
 # let's look at the Kolmogorov-Smirnov 2-sample test
-ks.test(d$weight[d$feed=="casein"], d$weight[d$feed=="meatmeal"], paired=F)     # tests Ho: distributions are same
+ks.test(weight[feed=="casein"], weight[feed=="meatmeal"], paired=F)     # tests Ho: distributions are same
 
 ########################
 ##  BOOTSTRAPPING... ###
@@ -56,10 +61,10 @@ ks.test(d$weight[d$feed=="casein"], d$weight[d$feed=="meatmeal"], paired=F)     
 
 # let's bootstrap...
 set.seed(112358)   # for reproducibility
-n <- length(d$feed)  # the number of observations to sample
+n <- length(feed)  # the number of observations to sample
 n
 B <- 10000  # the number of bootstrap samples
-variable <- d$weight  # the variable we will resample from
+variable <- weight  # the variable we will resample from
 
 # now, get those bootstrap samples (without loops!)
 BootstrapSamples <- matrix( sample(variable, size= n*B, replace=TRUE), 
@@ -104,7 +109,7 @@ mean( Boot.test.stat2 >= test.stat2)
 # now, recall the difference between "statistical significance" and 
 # "scientific significance"
 ### in a "real-world" what would you want to conclude here
-table(d$feed)
+table(feed)
 
 # let's take a look at a density plot of all the Bootstrap test-stats, and 
 # add in our Observed test stat
@@ -119,7 +124,7 @@ text(60,0.0005, "p-value", col="blue", cex=0.7)
 ###########################
 
 # lets calculate the absolute diff in 90th percentiles
-test.stat3 <- abs(quantile(d$weight[d$feed=="casein"], prob=0.9) - quantile(d$weight[d$feed=="meatmeal"], prob=0.9))  #diff in medians
+test.stat3 <- abs(quantile(weight[feed=="casein"], prob=0.9) - quantile(weight[feed=="meatmeal"], prob=0.9))  #diff in medians
 test.stat3
 
 # initialize a vector to save the bootstrap test stats in
