@@ -10,28 +10,33 @@ View(d)
 
 # check the names, etc
 names(d)
-levels(d$feed)
+
+# assign variables for ease of use
+weight = d$weight
+feed = d$feed
+
+levels(feed)
 # how many observations in each diet?
-table(d$feed)
+table(feed)
 
 # let's look at a boxplot of weight gain by those 2 diets
-boxplot(d$weight~d$feed, las=1, ylab="weight (g)", 
+boxplot(weight~feed, las=1, ylab="weight (g)", 
         xlab="feed",main="Weight by Feed")
 
 # calculate the difference in sample MEANS
-mean(d$weight[d$feed=="casein"])  # mean for casein
-mean(d$weight[d$feed=="meatmeal"])  # mean for meatmeal
+mean(weight[feed=="casein"])  # mean for casein
+mean(weight[feed=="meatmeal"])  # mean for meatmeal
 # lets calculate the absolute diff in means
-test.stat1 <- abs(mean(d$weight[d$feed=="casein"]) - 
-                    mean(d$weight[d$feed=="meatmeal"])) 
+test.stat1 <- abs(mean(weight[feed=="casein"]) - 
+                    mean(weight[feed=="meatmeal"])) 
 test.stat1
 
 
 # calculate the difference in sample MEDIANS
-median(d$weight[d$feed=="casein"])  # median for casein
-median(d$weight[d$feed=="meatmeal"])  # median for meatmeal
+median(weight[feed=="casein"])  # median for casein
+median(weight[feed=="meatmeal"])  # median for meatmeal
 # lets calculate the absolute diff in medians
-test.stat2 <- abs(median(d$weight[d$feed=="casein"]) - median(d$weight[d$feed=="meatmeal"]))  #diff in medians
+test.stat2 <- abs(median(weight[feed=="casein"]) - median(weight[feed=="meatmeal"]))  #diff in medians
 test.stat2
 
 ##########################
@@ -43,12 +48,12 @@ test.stat2
 # for reproducability of results
 set.seed(1979)  
 # the number of observations to sample
-n <- length(d$feed)  
+n <- length(feed)  
 # the number of permutation samples to take
 P <- 100000 
 # the variable we will resample from 
 #     (note, could use the labels(feed) too, and "shuffle this")
-variable <- d$weight  
+variable <- weight  
 
 # initialize a matrix to store the permutation data
 PermSamples <- matrix(0, nrow=n, ncol=P)
@@ -78,11 +83,11 @@ Perm.test.stat1 <- Perm.test.stat2 <- rep(0, P)
 # loop thru, and calculate the test-stats
 for (i in 1:P){
   # calculate the perm-test-stat1 and save it
-  Perm.test.stat1[i] <- abs( mean(PermSamples[d$feed=="casein",i]) - 
-                               mean(PermSamples[d$feed=="meatmeal",i]) )
+  Perm.test.stat1[i] <- abs( mean(PermSamples[feed=="casein",i]) - 
+                               mean(PermSamples[feed=="meatmeal",i]) )
   # calculate the perm-test-stat2 and save it
-  Perm.test.stat2[i] <- abs( median(PermSamples[d$feed=="casein",i]) - 
-                               median(PermSamples[d$feed=="meatmeal",i]) )
+  Perm.test.stat2[i] <- abs( median(PermSamples[feed=="casein",i]) - 
+                               median(PermSamples[feed=="meatmeal",i]) )
 }
 
 # before going too far with this, let's remind ourselves of 
@@ -114,27 +119,27 @@ mean( Perm.test.stat2 >= test.stat2)
 ########################
 
 # calculate the mean for each group
-with(d, tapply(weight, feed, mean))
+tapply(weight, feed, mean)
 # calculate the difference in means for each group
-abs( diff( with(d, tapply(weight, feed, mean)) ) )
+abs( diff( tapply(weight, feed, mean)) )
 
 # and calculate the median for each group
-with(d, tapply(weight, feed, median))
+tapply(weight, feed, median)
 # and, calculate the difference in medians 
-abs( diff( with(d, tapply(weight, feed, median)) ) )
+abs( diff( tapply(weight, feed, median)) )
 
 ## let's take a look at the 3 "Classic" hyp tests we could 
 # consider (each of which comes with their own limitations...)
 
 # let's look at the Independent 2-sample t-test
 # tests Ho: means are equal
-t.test(d$weight~d$feed, paired=F, var.eq=F)  
+t.test(weight~feed, paired=F, var.eq=F)  
 # let's look at the Wilcoxon aka Mann-Whitney U 
 # tests Ho: medians are equal
-wilcox.test(d$weight~d$feed, paired=F)  
+wilcox.test(weight~feed, paired=F)  
 # let's look at the Kolmogorov-Smirnov 2-sample test
 # tests Ho: distributions are same
-ks.test(d$weight[d$feed=="casein"], d$weight[d$feed=="meatmeal"], paired=F)     
+ks.test(weight[feed=="casein"], weight[feed=="meatmeal"], paired=F)     
 
 ### produce a plot that shows the sampling distribution, and p-value
 ### for the Permutation approach, for test.stat1
@@ -158,12 +163,12 @@ text(60,0.0005, "p-value", col="blue", cex=0.7)
 # for reproducability of results
 set.seed(12345)  
 # the number of observations to sample
-n <- length(d$feed)  
+n <- length(feed)  
 # the number of permutation samples to take
 P <- 10000  
 # the variable we will resample from 
 #     (note, could use the labels(feed) too, and "shuffle this")
-variable <- d$feed 
+variable <- feed 
 
 ### NOTE, we are going to sample with replacement from "feed" this 
 ###    time, and not from "weight"
@@ -191,11 +196,11 @@ Perm.test.stat1b <- Perm.test.stat2b <- rep(0, P)
 # loop thru, and calculate the test-stats
 for (i in 1:P){
   # calculate the perm-test-stat1 and save it
-  Perm.test.stat1b[i] <- abs( mean(d$weight[PermSamplesOther[,i]=="1"]) - 
-                                mean(d$weight[PermSamplesOther[,i]=="2"]) )
+  Perm.test.stat1b[i] <- abs( mean(weight[PermSamplesOther[,i]=="1"]) - 
+                                mean(weight[PermSamplesOther[,i]=="2"]) )
   # calculate the perm-test-stat2 and save it
-  Perm.test.stat2b[i] <- abs( median(d$weight[PermSamplesOther[,i]=="1"]) - 
-                                median(d$weight[PermSamplesOther[,i]=="2"]) )
+  Perm.test.stat2b[i] <- abs( median(weight[PermSamplesOther[,i]=="1"]) - 
+                                median(weight[PermSamplesOther[,i]=="2"]) )
 }
 
 # before going too far with this, let's remind ourselves of 

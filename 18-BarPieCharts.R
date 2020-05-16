@@ -10,10 +10,13 @@ Gender = LungCapData$Gender
 Caesarean = LungCapData$Caesarean
 
 help(barplot)
+?pie
+
 count = table(Gender)
 count
 percentage = count/725 * 100
 percentage
+
 barplot(count)
 barplot(percentage)
 barplot(percentage, main='TITLE', xlab='Gender', ylab='%')
@@ -26,6 +29,8 @@ barplot(percentage, main='TITLE', ylab='Gender', xlab='%', las=1,
 
 
 pie(count)
-pie(count, main='Title here', clockwise=T, col=c('pink', 'blue'))
+lbls = paste(names(percentage), '\n', round(percentage,1), '%')
+pie(count, main='Pie title', clockwise=T, col=c('#A6DBAE','#E5C19D'), labels=lbls,
+    border=NA)
 box()
 
