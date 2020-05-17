@@ -12,16 +12,24 @@ Caesarean = LungCapData$Caesarean
 
 class(Gender)
 class(Smoke)
+levels(Gender)
 levels(Smoke)
 
-?chisq.test
 TAB = table(Gender, Smoke)
 TAB
 barplot(TAB, las=1, beside=T, legend=T)
 
-CHI = chisq.test(TAB, correct=T)
-CHI
-attributes(CHI)
-CHI$expected
+library(epiR)
+help(package='epiR')
 
-fisher.test(TAB, conf.int=T, conf.level=0.99)
+epi.2by2(TAB, method='cohort.count', conf.level=0.95)
+
+TAB
+TAB2 = matrix(c(44,314,33,334), nrow=2, byrow=T)
+TAB2
+TAB3 = cbind(TAB[,2], TAB[,1])
+TAB3
+colnames(TAB3) = c('yes', 'no')
+TAB3
+
+epi.2by2(TAB3, method='cohort.count')
