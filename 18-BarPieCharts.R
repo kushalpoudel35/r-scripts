@@ -34,3 +34,24 @@ pie(count, main='Pie title', clockwise=T, col=c('#A6DBAE','#E5C19D'), labels=lbl
     border='white')
 box()
 
+# Alternatively for pie and donut charts, we can use ggpubr library
+library(ggpubr)
+class(percentage)
+percentage = data.frame(percentage)
+class(percentage)
+percentage
+
+labl = paste(round(percentage$Freq, 1), '%')
+
+ggpie(percentage, 'Freq', label='Gender')
+ggpie(percentage, 'Freq', label='Gender', fill='Gender', color='white',
+      palette = c('pink', 'blue'))
+ggpie(percentage, 'Freq', label=labl, fill='Gender', color='white',
+      palette = c('pink', 'blue'))
+
+# donut chart
+ggdonutchart(percentage, 'Freq', label='Gender')
+ggdonutchart(percentage, 'Freq', label='Gender', fill='Gender', color='white',
+      palette = c('pink', 'blue'))
+ggdonutchart(percentage, 'Freq', label=labl, fill='Gender', color='white',
+      palette = c('pink', 'blue'))
