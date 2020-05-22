@@ -1,0 +1,11 @@
+Age	Gender	Weight
+21	Male	32
+22	M	56
+23	m	67
+21	male	45
+14	Female	67
+32	f	54
+23	F	89
+25	fem	76
+54	M	56
+21	mal	49
