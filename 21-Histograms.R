@@ -19,3 +19,12 @@ hist(LungCap, prob=T, ylim=c(0,0.2), breaks=seq(0,16,2))
 hist(LungCap, prob=T, ylim=c(0,0.2), breaks=seq(0,16,2),
      xlab='Lung capacity', main='Histogram of lung capacity', las=1)
 lines(density(LungCap), col='red', lwd=3)
+
+# using ggplot2 (recommended, coz it's easy)
+library(ggplot2)
+?geom_histogram
+ggplot(LungCapData, aes(x=LungCap)) +
+  geom_histogram()
+
+ggplot(LungCapData, aes(x=LungCap)) +
+  geom_histogram(color='black', fill='#87db79')

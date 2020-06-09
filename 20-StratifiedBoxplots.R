@@ -36,3 +36,23 @@ axis(2, at=seq(0,20,2), seq(0,20,2), las=1)
 axis(1, at=c(1.5,3.5,5.5,7.5), labels=c('<=13', '14-15', '16-17', '18+'))
 legend(x=5.5, y=4.5, legend=c('Non-smoke', 'Smoke'), col=c('blue', 'red'),
        pch=15, cex=0.8)
+
+
+# using ggplot2 (recommended, coz it's easy)
+library(ggplot2)
+
+# normal boxplot
+ggplot(LungCapData, aes(x=Smoke, y=LungCap)) +
+        geom_boxplot()
+
+ggplot(LungCapData, aes(x=Smoke, y=LungCap)) +
+        stat_boxplot(geom='errorbar') +
+        geom_boxplot()
+
+# stratified boxplot
+ggplot(LungCapData, aes(x=AgeGroups, y=LungCap, color=Smoke)) +
+        geom_boxplot()
+
+ggplot(LungCapData, aes(x=AgeGroups, y=LungCap, fill=Smoke)) +
+        stat_boxplot(geom='errorbar') +
+        geom_boxplot()
