@@ -46,24 +46,34 @@ pie(count, main='Pie title', clockwise=T, col=c('#A6DBAE','#E5C19D'), labels=lbl
     border='white')
 box()
 
-# Alternatively for pie and donut charts, we can use ggpubr library
-library(ggpubr)
+
+
+# or we could use ggplot2
+library(ggplot2)
+library(dplyr)
+
 class(percentage)
 percentage2 = data.frame(percentage)
 class(percentage2)
 percentage2
 
-labl = paste(round(percentage2$Freq, 1), '%')
+ggplot(percentage2, aes(x='', y=Freq, fill=Gender)) +
+  geom_bar(width=1, stat='identity') +
+  coord_polar('y', start=0)
 
-ggpie(percentage2, 'Freq', label='Gender')
-ggpie(percentage2, 'Freq', label='Gender', fill='Gender', color='white',
-      palette = c('pink', 'blue'))
-ggpie(percentage2, 'Freq', label=labl, fill='Gender', color='white',
-      palette = c('pink', 'blue'))
+ggplot(percentage2, aes(x='', y=Freq, fill=Gender)) +
+  geom_bar(width=1, stat='identity') +
+  coord_polar('y', start=0) +
+  theme_void()
 
-# donut chart
-ggdonutchart(percentage2, 'Freq', label='Gender')
-ggdonutchart(percentage2, 'Freq', label='Gender', fill='Gender', color='white',
-      palette = c('pink', 'blue'))
-ggdonutchart(percentage2, 'Freq', label=labl, fill='Gender', color='white',
-      palette = c('pink', 'blue'))
+# Add label position
+percentage2 = percentage2 %>% 
+  arrange(desc(Gender)) %>%
+  mutate(ypos = cumsum(Freq)- 0.5*Freq )
+
+ggplot(percentage2, aes(x='', y=Freq, fill=Gender)) +
+  geom_bar(width=1, stat='identity') +
+  coord_polar('y', start=0) +
+  theme_void() +
+  geom_text(aes(y=ypos,label=round(Freq,1))) +
+  ggsave('piechart.png', type='cairo')

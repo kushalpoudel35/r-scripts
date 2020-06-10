@@ -13,6 +13,9 @@ Caesarean = LungCapData$Caesarean
 class(Age)
 class(LungCap)
 
+# correlation just tells how well the variables are related
+# not causality
+# variables can be flipped and correlation remains same
 ?cor.test
 plot(Age, LungCap, las=1, main='Scatterplot')
 cor(Age, LungCap, method='pearson')

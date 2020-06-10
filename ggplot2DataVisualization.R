@@ -1,7 +1,6 @@
 # ggplot2 is an excellent data visualization tool
 # and it is very easy and fun too
-# except for piechart and donut chart
-# for piechart and donut charts, use ggpubr library -> ggpie, ggdonutchart
+
 
 LungCapData = read.table(file='data/LungCapData.txt', header=TRUE, sep='\t')
 head(LungCapData)
