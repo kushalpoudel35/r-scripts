@@ -1,4 +1,5 @@
 data = read.table(file='data/BadData.txt', header=T, sep='\t')
+
 head(data)
 names(data)
 
