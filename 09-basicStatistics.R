@@ -23,8 +23,8 @@ Caesarean = LungCapData$Caesarean
 # we will still be getting the wrong results
 # so attaching the data is a bad practice
 # The BEST practice is neither to attach the data to memory nor to redefine variables
-# but to import the data with a short name, like 'data' or simply 'd'
-# and use variables with $ sign: like data$Age, or d$Gender
+# but to import the data with a short name, like 'df' (stands for dataframe)
+# and use variables with $ sign: like df$Age, or df$Gender
 # this way we can easily manipulate the variables when we need to
 # and get the correct results.
 
