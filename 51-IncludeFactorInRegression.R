@@ -62,3 +62,4 @@ ggplot(LungCapData, aes(x=Age, y=LungCap, color=Smoke)) +
   stat_function(fun=eqNonSmoker, geom='line', size=1, color=scales::hue_pal()(2)[1]) +
   stat_function(fun=eqSmoker, geom='line', size=1, color=scales::hue_pal()(2)[2]) +
   labs(title='Lung capacity Vs Age,Smoke')
+

@@ -28,7 +28,19 @@ plot(Age, LungCap, las=1, main='Scatterplot')
 abline(mod)
 abline(mod, col=2, lwd=3)
 
+# using ggplot2 (much easier)
+library(ggplot2)
+
 coef(mod)
+# regression equation is
+# LungCap = 1.147 + 0.545*Age
+
+# lets plot
+ggplot(LungCapData, aes(x=Age, y=LungCap)) +
+  geom_point() +
+  stat_smooth(method='lm', formula=y~x, geom='line', size=1, color='red') +
+  labs(title='Lung capacity Vs Age')
+
 confint(mod)
 confint(mod, level=0.99)
 summary(mod)
