@@ -14,7 +14,7 @@ class(LungCap)
 help(t.test)
 boxplot(LungCap)
 
-#lets conduct a t-test
+#lets conduct a t-test (mu = population mean of LungCap)
 # Ho: mu = 8
 # H1: mu < 8
 # one-sided 95% confidence interval for mu
